@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="test," />
+  <meta name="keywords" content="消息队列 rabbitMQ," />
 
 
 
@@ -47,7 +47,7 @@
 
 
 
-  <title> 第一篇测试日志 - 程小黑 </title>
+  <title> rabbitMQ环境搭建 - 程小黑 </title>
 </head>
 
 <body>
@@ -135,7 +135,7 @@
           
           
             
-              第一篇测试日志
+              rabbitMQ环境搭建
             
           
         </h1>
@@ -143,7 +143,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-06
+          发表于 2015-09-06
         </span>
 
         
@@ -152,8 +152,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/06/第一篇测试日志/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/06/第一篇测试日志/"></span>
+            <a href="/2015/09/06/rabbitmq环境搭建及使用/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/06/rabbitmq环境搭建及使用/"></span>
             </a>
           </span>
           
@@ -167,17 +167,40 @@
       
 
       
-        <h2 id="第一篇测试日志">第一篇测试日志</h2><h2 id="未来计划的几篇日志">未来计划的几篇日志</h2><ol>
-<li>java异常总结，及其用处</li>
-<li>http协议，状态码及其用处</li>
-<li>mongodb的安装，命令，java client使用及与MySQL的对比</li>
-</ol>
+        <h2 id="rabbitMQ">rabbitMQ</h2><blockquote>
+<p>RabbitMQ 是一个消息代理。它的核心原理非常简单：接收和发送消息。你可以把它想像成一个邮局：你把信件放入邮箱，邮递员就会把信件投递到你的收件人处。在这个比喻中，RabbitMQ 就扮演着邮箱、邮局以及邮递员的角色。</p>
+</blockquote>
+<p><a href="http://wiki.jikexueyuan.com/project/rabbitmq/" target="_blank" rel="external">RabbitMQ 能为你做些什么？</a></p>
 <a id="more"></a>
-<h2 id="未来计划的几篇日志-1">未来计划的几篇日志</h2><ol>
-<li>java异常总结，及其用处</li>
-<li>http协议，状态码及其用处</li>
-<li>mongodb的安装，命令，java client使用及与MySQL的对比</li>
-</ol>
+<h2 id="安装">安装</h2><ul>
+<li><a href="http://www.rabbitmq.com/" target="_blank" rel="external">rabbitMQ首页</a> 可以在上面下载对应的安装版本；</li>
+<li>进入<a href="http://www.rabbitmq.com/install-rpm.html" target="_blank" rel="external">install页面</a>  </li>
+</ul>
+<blockquote>
+<p>安装rabbitMQ前需要安装Erlang包，根据<strong>Installation using repository</strong>的步骤安装Erlang；</p>
+</blockquote>
+<h3 id="命令行">命令行</h3><p>``` linux</p>
+<h3 id="Adding_repository_entry">Adding repository entry</h3><blockquote>
+<p>wget <a href="http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm" target="_blank" rel="external">http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm</a><br>rpm -Uvh erlang-solutions-1.0-1.noarch.rpm  </p>
+</blockquote>
+<h3 id="adding_the_repository_entry_manually">adding the repository entry manually</h3><blockquote>
+<p>rpm —import <a href="http://packages.erlang-solutions.com/rpm/erlang_solutions.asc" target="_blank" rel="external">http://packages.erlang-solutions.com/rpm/erlang_solutions.asc</a></p>
+</blockquote>
+<p>如果没报错，则准备环境安装完成</p>
+<h2 id="安装rabbitMQ">安装rabbitMQ</h2><ul>
+<li>先下载对应安装文件 wget或者scp均可</li>
+<li>yum instal rabbitmq-server-3.5.3-1.noarch.rpm</li>
+</ul>
+<blockquote>
+<p>RabbitMQ服务<br>开启：service rabbitmq-server start<br>关闭：service rabbitmq-server stop<br>重启：service rabbitmq-server restart</p>
+</blockquote>
+<h2 id="监控页面">监控页面</h2><blockquote>
+<p>RabbitMQ提供了一个web的监控页面系统，这个系统是以Plugin的方式进行调用的，在Documentation下的Server下的Management是关于配置这个插件的。地址:<a href="http://www.rabbitmq.com/management.html" target="_blank" rel="external">http://www.rabbitmq.com/management.html</a></p>
+<p>这个管理插件是包含在RabbitMQ发行包里的，所以只需激活即可。命令如下</p>
+<p>abbitmq-plugins enable rabbitmq_management</p>
+</blockquote>
+<p><a href="http://www.rabbitmq.com/man/rabbitmqctl.1.man.html" target="_blank" rel="external">具体语法请点击</a></p>
+<p><a href="http://www.rabbitmq.com/management.html" target="_blank" rel="external">介绍界面</a></p>
 
       
     </div>
@@ -186,7 +209,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/test/"> #test </a>
+            <a href="/tags/消息队列-rabbitMQ/"> #消息队列 rabbitMQ </a>
           
         </div>
       
@@ -195,13 +218,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/07/为什么要使用泛型/">为什么要使用泛型</a>
+              <a href="/2015/09/10/spring_mvc_aop_总结/">spring_mvc_aop_总结</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/05/Markdown简介/">欢迎使用马克飞象</a>
+              <a href="/2015/06/07/为什么要使用泛型/">为什么要使用泛型</a>
             
           </div>
         </div>
@@ -217,8 +240,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/06/第一篇测试日志/"
-               data-title="第一篇测试日志" data-url="https://ddimples.github.io/2015/06/06/第一篇测试日志/">
+          <div class="ds-thread" data-thread-key="2015/09/06/rabbitmq环境搭建及使用/"
+               data-title="rabbitMQ环境搭建" data-url="https://ddimples.github.io/2015/09/06/rabbitmq环境搭建及使用/">
           </div>
         
       </div>
@@ -303,7 +326,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一篇测试日志"><span class="nav-number">1.</span> <span class="nav-text">第一篇测试日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来计划的几篇日志"><span class="nav-number">2.</span> <span class="nav-text">未来计划的几篇日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来计划的几篇日志-1"><span class="nav-number">3.</span> <span class="nav-text">未来计划的几篇日志</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#rabbitMQ"><span class="nav-number">1.</span> <span class="nav-text">rabbitMQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令行"><span class="nav-number">2.1.</span> <span class="nav-text">命令行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adding_repository_entry"><span class="nav-number">2.2.</span> <span class="nav-text">Adding repository entry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#adding_the_repository_entry_manually"><span class="nav-number">2.3.</span> <span class="nav-text">adding the repository entry manually</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装rabbitMQ"><span class="nav-number">3.</span> <span class="nav-text">安装rabbitMQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监控页面"><span class="nav-number">4.</span> <span class="nav-text">监控页面</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

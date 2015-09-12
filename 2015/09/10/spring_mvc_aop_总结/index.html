@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="test," />
+  <meta name="keywords" content="springmvc aop," />
 
 
 
@@ -47,7 +47,7 @@
 
 
 
-  <title> 第一篇测试日志 - 程小黑 </title>
+  <title> spring_mvc_aop_总结 - 程小黑 </title>
 </head>
 
 <body>
@@ -135,7 +135,7 @@
           
           
             
-              第一篇测试日志
+              spring_mvc_aop_总结
             
           
         </h1>
@@ -143,7 +143,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-06
+          发表于 2015-09-10
         </span>
 
         
@@ -152,8 +152,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/06/第一篇测试日志/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/06/第一篇测试日志/"></span>
+            <a href="/2015/09/10/spring_mvc_aop_总结/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/10/spring_mvc_aop_总结/"></span>
             </a>
           </span>
           
@@ -167,17 +167,24 @@
       
 
       
-        <h2 id="第一篇测试日志">第一篇测试日志</h2><h2 id="未来计划的几篇日志">未来计划的几篇日志</h2><ol>
-<li>java异常总结，及其用处</li>
-<li>http协议，状态码及其用处</li>
-<li>mongodb的安装，命令，java client使用及与MySQL的对比</li>
-</ol>
+        <h2 id="定义">定义</h2><blockquote>
+<p>aop，面向切面编程。开发工作中，我们往往只想关注业务需求的逻辑实现，但是我们也需要了解系统的性能、日记记录等等，但是如果每次都在实现业务的地方加入记录性能的实现，这样就大大的耦合了业务逻辑实现和框架实现。 为此aop的目的是将与业务逻辑无关的需求分离开来独立实现，可以用来实现日志记录、性能统计、安全控制、事务处理等模块。主要原理是拦截器和反射。</p>
+</blockquote>
 <a id="more"></a>
-<h2 id="未来计划的几篇日志-1">未来计划的几篇日志</h2><ol>
-<li>java异常总结，及其用处</li>
-<li>http协议，状态码及其用处</li>
-<li>mongodb的安装，命令，java client使用及与MySQL的对比</li>
-</ol>
+<h2 id="使用方法">使用方法</h2><blockquote>
+<p>引用springMVC 3.2.3.RELEASE包</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- AspectJ --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.aspectj&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;aspectjrt&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.8.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- 方式一实现的时候并未报错 后面研究一下--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.aspectj&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;1.8.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="方式一：基于注解的aop实现">方式一：基于注解的aop实现</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//context文件中扫描新增的aop类</span></span><br><span class="line">&lt;<span class="string">mvc:</span>annotation-driven /&gt;</span><br><span class="line">&lt;<span class="string">context:</span>component-scan base-<span class="keyword">package</span>=<span class="string">"com.yyy.web.mess.aop"</span>/&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="string">aop:</span>aspectj-autoproxy proxy-target-<span class="class"><span class="keyword">class</span>="<span class="title">false</span>" /&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对应的java 实现</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.yyy.web.mess.aop;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.After;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@Component</span></span><br><span class="line"><span class="annotation">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AopTest</span> </span>&#123;</span><br><span class="line">	<span class="comment">//此处有多种方式  before、after、Around、AfterReturning、AfterThrowing等等后面详细介绍</span></span><br><span class="line">    <span class="annotation">@After</span>(<span class="string">"execution(* com.yyy.web.mess.controller.AopController.*(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterDo</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"controller aop!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="基于配置文件的实现">基于配置文件的实现</h3><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;aop:aspectj-autoproxy proxy-target-class=<span class="string">"false"</span> /&gt;</span><br><span class="line">//将对应的aop注入到框架中</span><br><span class="line">&lt;beans:bean id=<span class="string">"aoptest"</span> class=<span class="string">"com.yyy.web.mess.aop.AopTest"</span>&gt;&lt;/beans:bean&gt;</span><br><span class="line">&lt;aop:config&gt;</span><br><span class="line">    &lt;aop:aspect id=<span class="string">"after"</span> <span class="keyword">ref</span>=<span class="string">"aoptest"</span>&gt;</span><br><span class="line">        &lt;aop:pointcut id=<span class="string">"pointcut"</span></span><br><span class="line">             expression=<span class="string">"execution(* com.yyy.web.mess.controller.AopController.*(..) )"</span> /&gt;</span><br><span class="line">        &lt;aop:around  pointcut-<span class="keyword">ref</span>=<span class="string">"pointcut"</span> <span class="keyword">method</span>=<span class="string">"afterDo"</span>/&gt;</span><br><span class="line">    &lt;/aop:aspect&gt;</span><br><span class="line">&lt;/aop:config&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对应的java实现，无注解</p>
+</blockquote>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AopTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterDo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"controller aop!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -186,7 +193,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/test/"> #test </a>
+            <a href="/tags/springmvc-aop/"> #springmvc aop </a>
           
         </div>
       
@@ -195,13 +202,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/07/为什么要使用泛型/">为什么要使用泛型</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/05/Markdown简介/">欢迎使用马克飞象</a>
+              <a href="/2015/09/06/rabbitmq环境搭建及使用/">rabbitMQ环境搭建</a>
             
           </div>
         </div>
@@ -217,8 +222,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/06/第一篇测试日志/"
-               data-title="第一篇测试日志" data-url="https://ddimples.github.io/2015/06/06/第一篇测试日志/">
+          <div class="ds-thread" data-thread-key="2015/09/10/spring_mvc_aop_总结/"
+               data-title="spring_mvc_aop_总结" data-url="https://ddimples.github.io/2015/09/10/spring_mvc_aop_总结/">
           </div>
         
       </div>
@@ -303,7 +308,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一篇测试日志"><span class="nav-number">1.</span> <span class="nav-text">第一篇测试日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来计划的几篇日志"><span class="nav-number">2.</span> <span class="nav-text">未来计划的几篇日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来计划的几篇日志-1"><span class="nav-number">3.</span> <span class="nav-text">未来计划的几篇日志</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方式一：基于注解的aop实现"><span class="nav-number">2.1.</span> <span class="nav-text">方式一：基于注解的aop实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于配置文件的实现"><span class="nav-number">2.2.</span> <span class="nav-text">基于配置文件的实现</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
