@@ -167,100 +167,16 @@
       
 
       
-        <h2 id="什么是泛型">什么是泛型</h2><pre><code>泛型的本质是参数化类型，操作的数据类型被指定为一个参数。这种参数类型可以用在类、接口和方法的创建中，分别称为泛型类、泛型接口、泛型方法。 对于强制类型转换错误的情况，编译器可能不提示错误，在运行的时候才出现异常，这是一个安全隐患。使用泛型的好处是在编译的时候检查类型安全，并且所有的强制转换都是自动和隐式的，提高代码的重用率。
-</code></pre><a id="more"></a>
-<h3 id="栗子">栗子</h3><pre><code><span class="keyword">public</span> class TestMain {
-
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args){
-        TestList testList = <span class="keyword">new</span> TestList();
-        testList.<span class="built_in">add</span>(<span class="string">"aaa"</span>);
-        testList.<span class="built_in">add</span>(<span class="number">100</span>);
-        <span class="comment">//我们向testList中添加了不同类型的对象，当我们要取出某个对象时</span>
-        <span class="comment">//取第一个对象时，会发生ClassCastException异常，但是编译器却无法检测出来</span>
-        <span class="comment">//Integer num = (Integer)testList.getObj(0);</span>
-        Integer num = (Integer)testList.getObj(<span class="number">1</span>);
-
-        ArrayList&lt;<span class="keyword">String</span>&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">10</span>);
-        <span class="comment">//使用泛型的java.util.ArrayList在添加不同类型时，编译不能通过</span>
-        <span class="comment">//list.add(100);</span>
-        list.<span class="built_in">add</span>(<span class="keyword">String</span>.valueOf(<span class="number">100</span>));
-
-    }
-}
-
-<span class="comment">/**
-  * 简易版list
-  */</span>
-class TestList{
-    <span class="keyword">private</span> <span class="keyword">Object</span>[] value =<span class="keyword">new</span> <span class="keyword">Object</span>[<span class="number">10</span>];
-    <span class="keyword">private</span> <span class="built_in">int</span> <span class="built_in">size</span>;
-    <span class="keyword">public</span> TestList(){
-
-    }
-
-    <span class="keyword">public</span> <span class="keyword">void</span> <span class="built_in">add</span>(<span class="keyword">Object</span> obj){
-        value[<span class="built_in">size</span>] =  obj;
-        <span class="built_in">size</span>++;
-    }
-
-    <span class="keyword">public</span> <span class="keyword">Object</span> getObj(<span class="built_in">int</span> index){
-        <span class="keyword">return</span> value[index];
-    }
-}   
-</code></pre><h2 id="向上/向下强制转型">向上/向下强制转型</h2><blockquote>
+        <h2 id="什么是泛型">什么是泛型</h2><blockquote>
+<p>泛型的本质是参数化类型，操作的数据类型被指定为一个参数。这种参数类型可以用在类、接口和方法的创建中，分别称为泛型类、泛型接口、泛型方法。 对于强制类型转换错误的情况，编译器可能不提示错误，在运行的时候才出现异常，这是一个安全隐患。使用泛型的好处是在编译的时候检查类型安全，并且所有的强制转换都是自动和隐式的，提高代码的重用率。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="栗子">栗子</h3><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> class TestMain &#123;</span><br><span class="line"></span><br><span class="line">    	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args)&#123;</span><br><span class="line">        	TestList testList = <span class="keyword">new</span> TestList();</span><br><span class="line">        	testList.<span class="built_in">add</span>(<span class="string">"aaa"</span>);</span><br><span class="line">        	testList.<span class="built_in">add</span>(<span class="number">100</span>);</span><br><span class="line">        	<span class="comment">//我们向testList中添加了不同类型的对象，当我们要取出某个对象时</span></span><br><span class="line">        	<span class="comment">//取第一个对象时，会发生ClassCastException异常，但是编译器却无法检测出来</span></span><br><span class="line">        	<span class="comment">//Integer num = (Integer)testList.getObj(0);</span></span><br><span class="line">        	Integer num = (Integer)testList.getObj(<span class="number">1</span>);</span><br><span class="line">			</span><br><span class="line">        	ArrayList&lt;<span class="keyword">String</span>&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">10</span>);</span><br><span class="line">        	<span class="comment">//使用泛型的java.util.ArrayList在添加不同类型时，编译不能通过</span></span><br><span class="line">        	<span class="comment">//list.add(100);</span></span><br><span class="line">        	list.<span class="built_in">add</span>(<span class="keyword">String</span>.valueOf(<span class="number">100</span>));</span><br><span class="line"></span><br><span class="line">    	&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span><br><span class="line"> 	 * 简易版list</span><br><span class="line"> 	 */</span></span><br><span class="line">	class TestList&#123;</span><br><span class="line">    	<span class="keyword">private</span> <span class="keyword">Object</span>[] value =<span class="keyword">new</span> <span class="keyword">Object</span>[<span class="number">10</span>];</span><br><span class="line">    	<span class="keyword">private</span> <span class="built_in">int</span> <span class="built_in">size</span>;</span><br><span class="line">    	<span class="keyword">public</span> TestList()&#123;</span><br><span class="line"></span><br><span class="line">    	&#125;</span><br><span class="line"></span><br><span class="line">    	<span class="keyword">public</span> <span class="keyword">void</span> <span class="built_in">add</span>(<span class="keyword">Object</span> obj)&#123;</span><br><span class="line">        	value[<span class="built_in">size</span>] =  obj;</span><br><span class="line">        	<span class="built_in">size</span>++;</span><br><span class="line">    	&#125;</span><br><span class="line"></span><br><span class="line">    	<span class="keyword">public</span> <span class="keyword">Object</span> getObj(<span class="built_in">int</span> index)&#123;</span><br><span class="line">        	<span class="keyword">return</span> value[index];</span><br><span class="line">    	&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="向上/向下强制转型">向上/向下强制转型</h2><blockquote>
 <p>Level1是接口，Level2实现了Level1，Level3继承自Level2</p>
 </blockquote>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> TestMain {
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>{
-
-        TestList&lt;Level2&gt; testList = <span class="keyword">new</span> TestList();
-        Level2 level2 = <span class="keyword">new</span> Level2();
-        Level3 level3 = <span class="keyword">new</span> Level3();
-        <span class="comment">//此时必须是Level2的子类，编译不通过</span>
-        testList.add(level2);
-        testList.add(level3);
-
-        TestMain testMain = <span class="keyword">new</span> TestMain();
-        <span class="comment">//编译出错，因为test方法要求参数list必须为Level3的子类，而testList初始化的时候T=Level2</span>
-        <span class="comment">//testMain.test(testList);</span>
-        <span class="comment">//没问题</span>
-        testMain.test2(testList);
-
-        TestList&lt;Level3&gt; test3 = <span class="keyword">new</span> TestList();
-        <span class="comment">//此时没问题</span>
-        testMain.test(test3);
-    }
-
-    <span class="keyword">public</span> &lt;T extends Level3&gt; <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(TestList&lt;T&gt; <span class="built_in">list</span>)</span></span>{
-        Level3 l = <span class="built_in">list</span>.getObj(<span class="number">0</span>);
-        l.showMsg();
-    }
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">(TestList&lt;? extends Level2&gt; <span class="built_in">list</span>)</span></span>{
-        Level2 l = <span class="built_in">list</span>.getObj(<span class="number">0</span>);
-        l.showMsg();
-    }
-}
-
-<span class="comment">/**
- * 简易版list
- * 向下转型，表示类必须是Level的子类
- * 向上转型，&lt;? super Double&gt;
- */</span>
-<span class="keyword">class</span> TestList&lt;T&gt;{
-    <span class="keyword">private</span> Object[] value =<span class="keyword">new</span> Object[<span class="number">10</span>];
-    <span class="keyword">private</span> <span class="keyword">int</span> size;
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(T obj)</span></span>{
-        value[size] =  obj;
-        size++;
-    }
-
-    <span class="function"><span class="keyword">public</span> T <span class="title">getObj</span><span class="params">(<span class="keyword">int</span> index)</span></span>{
-        <span class="keyword">return</span> (T)value[index];
-    }
-}
-</code></pre><h2 id="总结">总结</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="keyword">class</span> TestMain &#123;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">       	TestList&lt;Level2&gt; testList = <span class="keyword">new</span> TestList();</span><br><span class="line">       	Level2 level2 = <span class="keyword">new</span> Level2();</span><br><span class="line">       	Level3 level3 = <span class="keyword">new</span> Level3();</span><br><span class="line">       	<span class="comment">//此时必须是Level2的子类，编译不通过</span></span><br><span class="line">       	testList.add(level2);</span><br><span class="line">       	testList.add(level3);</span><br><span class="line"></span><br><span class="line">       	TestMain testMain = <span class="keyword">new</span> TestMain();</span><br><span class="line">       	<span class="comment">//编译出错，因为test方法要求参数list必须为Level3的子类，而testList初始化的时候T=Level2</span></span><br><span class="line">       	<span class="comment">//testMain.test(testList);</span></span><br><span class="line">       	<span class="comment">//没问题</span></span><br><span class="line">       	testMain.test2(testList);</span><br><span class="line"></span><br><span class="line">       	TestList&lt;Level3&gt; test3 = <span class="keyword">new</span> TestList();</span><br><span class="line">       	<span class="comment">//此时没问题</span></span><br><span class="line">       	testMain.test(test3);</span><br><span class="line">   	&#125;</span><br><span class="line"></span><br><span class="line">   	<span class="keyword">public</span> &lt;T extends Level3&gt; <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(TestList&lt;T&gt; <span class="built_in">list</span>)</span></span>&#123;</span><br><span class="line">       	Level3 l = <span class="built_in">list</span>.getObj(<span class="number">0</span>);</span><br><span class="line">           l.showMsg();</span><br><span class="line">   	&#125;</span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">(TestList&lt;? extends Level2&gt; <span class="built_in">list</span>)</span></span>&#123;</span><br><span class="line">       	Level2 l = <span class="built_in">list</span>.getObj(<span class="number">0</span>);</span><br><span class="line">       	l.showMsg();</span><br><span class="line">   	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line">	* 简易版list</span><br><span class="line">	* 向下转型，表示类必须是Level的子类</span><br><span class="line">	* 向上转型，&lt;? super Double&gt;</span><br><span class="line">	*/</span></span><br><span class="line"><span class="keyword">class</span> TestList&lt;T&gt;&#123;</span><br><span class="line">   	<span class="keyword">private</span> Object[] value =<span class="keyword">new</span> Object[<span class="number">10</span>];</span><br><span class="line">   	<span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(T obj)</span></span>&#123;</span><br><span class="line">       	value[size] =  obj;</span><br><span class="line">       	size++;</span><br><span class="line">   	&#125;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> T <span class="title">getObj</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">       	<span class="keyword">return</span> (T)value[index];</span><br><span class="line">   	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
       
     </div>
 
