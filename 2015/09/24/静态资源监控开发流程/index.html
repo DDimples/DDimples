@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="test," />
+  <meta name="keywords" content="web," />
 
 
 
@@ -47,7 +47,7 @@
 
 
 
-  <title> 第一篇测试日志 - 程小黑 </title>
+  <title> 静态资源监控开发流程 - 程小黑 </title>
 </head>
 
 <body>
@@ -135,7 +135,7 @@
           
           
             
-              第一篇测试日志
+              静态资源监控开发流程
             
           
         </h1>
@@ -143,7 +143,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-06
+          发表于 2015-09-24
         </span>
 
         
@@ -152,8 +152,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/06/第一篇测试日志/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/06/第一篇测试日志/"></span>
+            <a href="/2015/09/24/静态资源监控开发流程/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/24/静态资源监控开发流程/"></span>
             </a>
           </span>
           
@@ -167,17 +167,31 @@
       
 
       
-        <h2 id="第一篇测试日志">第一篇测试日志</h2><h2 id="未来计划的几篇日志">未来计划的几篇日志</h2><ol>
-<li>java异常总结，及其用处</li>
-<li>http协议，状态码及其用处</li>
-<li>mongodb的安装，命令，java client使用及与MySQL的对比</li>
+        <h2 id="目的">目的</h2><ol>
+<li>监控网站页面静态资源的加载时间和超时次数（每五分钟）；</li>
+<li>分类监控各种静态资源响应时间，比如img、js、css、link等；</li>
 </ol>
 <a id="more"></a>
-<h2 id="未来计划的几篇日志-1">未来计划的几篇日志</h2><ol>
-<li>java异常总结，及其用处</li>
-<li>http协议，状态码及其用处</li>
-<li>mongodb的安装，命令，java client使用及与MySQL的对比</li>
-</ol>
+<h2 id="目标">目标</h2><ul>
+<li>选择日期、业务线、pagetype获取静态资源响应数据，展示当天、环比、同比每五分钟加载时间平均值，通过图表的形式展现；</li>
+<li>获取当天每五分钟加载失败的次数，通过图表的形式展现；</li>
+</ul>
+<h2 id="方案">方案</h2><ul>
+<li>通过 <a href="http://www.w3.org/TR/2015/WD-resource-timing-20150422/" target="_blank" rel="external">Resource Timing API</a> 获取静态资源加载时间，通过TJ请求发出；</li>
+<li>发出的TJ请求被DMO拦截存入hbase，并提供从hbase取数据的接口；（此处需向DMO部门提供拦截规则，且他们提供的接口只能在生产环境访问，本地无法访问，他们可以按照业务规则将数据聚合）</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">示例：</span><br><span class="line"><span class="operator"><span class="keyword">create</span> streaming iis_tj (<span class="built_in">date</span>,<span class="keyword">time</span>,s_sitename,s_computername,s_ip,cs_method,cs_uri_stem,cs_uri_query,s_port,cs_username,c_ip,cs_version,cs_user_agent,cs_cookie_,cs_referer,cs_host,sc_status,sc_substatus,sc_win32_status,sc_bytes,cs_bytes,time_taken) seprator <span class="keyword">as</span> <span class="string">' '</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="operator"><span class="keyword">insert</span> <span class="keyword">into</span> </span><br><span class="line">dmo:rt_web_resourcelog</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> </span><br><span class="line"><span class="string">'m10'</span> <span class="keyword">as</span> _,</span><br><span class="line"><span class="keyword">year</span>(GMT_TIMEZONE,<span class="built_in">date</span>+<span class="string">' '</span>+<span class="keyword">time</span>) <span class="keyword">as</span> <span class="keyword">year</span>,</span><br><span class="line"><span class="keyword">month</span>(GMT_TIMEZONE,<span class="built_in">date</span>+<span class="string">' '</span>+<span class="keyword">time</span>) <span class="keyword">as</span> <span class="keyword">month</span>,</span><br><span class="line"><span class="keyword">day</span>(GMT_TIMEZONE,<span class="built_in">date</span>+<span class="string">' '</span>+<span class="keyword">time</span>) <span class="keyword">as</span> <span class="keyword">day</span>,</span><br><span class="line"><span class="keyword">hour</span>(GMT_TIMEZONE,<span class="built_in">date</span>+<span class="string">' '</span>+<span class="keyword">time</span>) <span class="keyword">as</span> <span class="keyword">hour</span>,</span><br><span class="line">minute_window(GMT_TIMEZONE,<span class="built_in">date</span>+<span class="string">' '</span>+<span class="keyword">time</span>,<span class="number">5</span>) <span class="keyword">as</span> <span class="keyword">minute</span>,</span><br><span class="line">map_val(str_to_map(cs_uri_query,<span class="string">'&amp;'</span>),<span class="string">'ch'</span>) <span class="keyword">as</span> appname,</span><br><span class="line">map_val(str_to_map(cs_uri_query,<span class="string">'&amp;'</span>),<span class="string">'pt'</span>) <span class="keyword">as</span> page_type,</span><br><span class="line">map_val(str_to_map(cs_uri_query,<span class="string">'&amp;'</span>),<span class="string">'p75'</span>) <span class="keyword">as</span> re_initiatorType,</span><br><span class="line"><span class="keyword">sum</span>(map_val(str_to_map(cs_uri_query,<span class="string">'&amp;'</span>),<span class="string">'p73'</span>)) <span class="keyword">as</span> sum_duration</span><br><span class="line"><span class="keyword">from</span> iis_tj</span><br><span class="line"><span class="keyword">where</span> <span class="string">"当前五分钟"</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">year</span>,<span class="keyword">month</span>,<span class="keyword">day</span>,<span class="keyword">hour</span>,<span class="keyword">minute</span>,appname,page_type,re_initiatorType;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>在服务器上建立定时任务，每5分钟或者一段时间将hbase的增量数据取出，存储到mongodb；</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">示例：</span><br><span class="line"><span class="number">1.</span>创建定时任务：每一分钟 用户xiang.cheng 会执行 curl <span class="string">http:</span><span class="comment">//192.168.20.36:8080/storData 命令</span></span><br><span class="line">vim <span class="regexp">/etc/</span>crontab 加入下面的命令</span><br><span class="line"> *<span class="regexp">/1 * * * * xiang.cheng curl http:/</span><span class="regexp">/192.168.20.36:8080/</span>storData</span><br><span class="line"> 启动定时任务： <span class="regexp">/sbin/</span>service crond start</span><br><span class="line"> 关闭定时任务： <span class="regexp">/sbin/</span>service crond stop </span><br><span class="line"><span class="number">2.</span>编码实现将hbase的数据存储到mongodb的action；</span><br></pre></td></tr></table></figure>
+<ul>
+<li>java从mongodb中取出数据后使用echarts展示当天、环比、同比和异常次数图表；</li>
+</ul>
+<h2 id="参考">参考</h2><ul>
+<li><a href="http://www.w3.org/TR/2015/WD-resource-timing-20150422/" target="_blank" rel="external">Resource Timing API</a> </li>
+<li><a href="http://www.dang-jian.com/css/2014/10/12/resource-timing-html5.html" target="_blank" rel="external">网友博客</a></li>
+</ul>
 
       
     </div>
@@ -186,7 +200,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/test/"> #test </a>
+            <a href="/tags/web/"> #web </a>
           
         </div>
       
@@ -195,13 +209,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/07/为什么要使用泛型/">为什么要使用泛型</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/05/Markdown简介/">欢迎使用马克飞象</a>
+              <a href="/2015/09/23/索引原理/">MySql索引原理及查询优化</a>
             
           </div>
         </div>
@@ -217,8 +229,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/06/第一篇测试日志/"
-               data-title="第一篇测试日志" data-url="https://ddimples.github.io/2015/06/06/第一篇测试日志/">
+          <div class="ds-thread" data-thread-key="2015/09/24/静态资源监控开发流程/"
+               data-title="静态资源监控开发流程" data-url="https://ddimples.github.io/2015/09/24/静态资源监控开发流程/">
           </div>
         
       </div>
@@ -303,7 +315,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一篇测试日志"><span class="nav-number">1.</span> <span class="nav-text">第一篇测试日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来计划的几篇日志"><span class="nav-number">2.</span> <span class="nav-text">未来计划的几篇日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来计划的几篇日志-1"><span class="nav-number">3.</span> <span class="nav-text">未来计划的几篇日志</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标"><span class="nav-number">2.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案"><span class="nav-number">3.</span> <span class="nav-text">方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

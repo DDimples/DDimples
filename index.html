@@ -137,6 +137,152 @@
           
           
             
+              <a class="post-title-link" href="/2015/09/24/静态资源监控开发流程/">
+                静态资源监控开发流程
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-09-24
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/09/24/静态资源监控开发流程/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/24/静态资源监控开发流程/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="目的">目的</h2><ol>
+<li>监控网站页面静态资源的加载时间和超时次数（每五分钟）；</li>
+<li>分类监控各种静态资源响应时间，比如img、js、css、link等；</li>
+</ol>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/09/24/静态资源监控开发流程/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/09/23/索引原理/">
+                MySql索引原理及查询优化
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-09-23
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/09/23/索引原理/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/23/索引原理/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="写在前面">写在前面</h2><blockquote>
+<p>索引对查询的速度有着至关重要的影响，增加索引也是进行数据库性能调优的第二步（我理解第一步是数据库设计）。当我们系统的数据库表读写比例在10：1左右甚至更大时，我们经常会遇到的问题是查询效率问题。如何提高查询效率，则需要优化查询语句及增加合理的索引。 </p>
+<p>假设数据库中一个表有10^6条记录，DBMS的页面大小为4K，并存储100条记录。如果没有索引，查询将对整个表进行扫描，最坏的情况下，如果所有数据页都不在内存，需要读取10^4个页面，如果这10^4个页面在磁盘上随机分布，需要进行10^4次I/O，假设磁盘每次I/O时间为10ms(忽略数据传输时间)，则总共需要100s(但实际上要好很多很多)。如果对之建立B-Tree索引，则只需要进行log100(10^6)=3次页面读取，最坏情况下耗时30ms。这就是索引带来的效果，很多时候，当你的应用程序进行SQL查询速度很慢时，应该想想是否可以建索引。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/09/23/索引原理/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/09/10/spring_mvc_aop_总结/">
                 spring_mvc_aop_总结
               </a>
@@ -527,7 +673,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -541,7 +687,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
