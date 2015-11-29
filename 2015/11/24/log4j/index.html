@@ -168,7 +168,7 @@
 
       
         <h1 id="背景">背景</h1><blockquote>
-<p>当业务飞速发展的时候，如何最快的发现异常，甚至预警异常，是系统设计不可或缺的一部分。</p>
+<p>当业务飞速发展的时候，如何最快的发现异常，甚至预警异常，是系统设计中不能不考虑的一部分。</p>
 </blockquote>
 <a id="more"></a>
 <h2 id="Log4j2简介及使用">Log4j2简介及使用</h2><h3 id="简介">简介</h3><p>1.Log4j2是Apache组织从头开发的log日志框架，不支持Log4j 1.x,官网上说性能相比1.x有很大提高，而且使用更灵活；<br>2.详细介绍请参考官网介绍<a href="http://logging.apache.org/log4j/2.x/" target="_blank" rel="external">Apache Log4j2</a></p>
@@ -179,9 +179,9 @@
 <blockquote>
 <p>这种方式当程序启动的时候会自动去加载log4j2.xml，并解析装载。</p>
 </blockquote>
-<pre><code><span class="comment"><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;context-<span class="built_in">param</span>&gt;</span><br><span class="line">       &lt;<span class="built_in">param</span>-name&gt;isLog4jAutoInitializationDisabled&lt;/<span class="built_in">param</span>-name&gt;</span><br><span class="line">       &lt;<span class="built_in">param</span>-<span class="built_in">value</span>&gt;<span class="constant">true</span>&lt;/<span class="built_in">param</span>-<span class="built_in">value</span>&gt;</span><br><span class="line">  	&lt;/context-<span class="built_in">param</span>&gt;</span><br></pre></td></tr></table></figure></span>
-</code></pre><blockquote>
-<p>更多<a href="https://logging.apache.org/log4j/2.x/manual/webapp.html" target="_blank" rel="external">配置方式请点击</a></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;context-<span class="built_in">param</span>&gt;</span><br><span class="line">   &lt;<span class="built_in">param</span>-name&gt;isLog4jAutoInitializationDisabled&lt;/<span class="built_in">param</span>-name&gt;</span><br><span class="line">   &lt;<span class="built_in">param</span>-<span class="built_in">value</span>&gt;<span class="constant">true</span>&lt;/<span class="built_in">param</span>-<span class="built_in">value</span>&gt;</span><br><span class="line">&lt;/context-<span class="built_in">param</span>&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>更多<a href="https://logging.apache.org/log4j/2.x/manual/webapp.html" target="_blank" rel="external">配置方式请点击</a>参考官网</p>
 </blockquote>
 <ol>
 <li>引入jar包</li>
