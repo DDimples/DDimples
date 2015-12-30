@@ -197,7 +197,7 @@
 <p>如上所示：defaultStrategies在类初始化的时候会被赋值,该值在ContextLoader.properties中。最终发现context的值为XmlWebApplicationContext,回到上面的initWebApplicationContext()方法中，context创建完成后configureAndRefreshWebApplicationContext()会被执行，并来到最终wac.refresh();</p>
 <figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void refresh<span class="params">()</span> throws BeansException, IllegalStateException &#123;</span><br><span class="line">    synchronized <span class="params">(this.startupShutdownMonitor)</span> &#123;</span><br><span class="line">        prepareRefresh<span class="params">()</span>;</span><br><span class="line">        <span class="comment">//创建beanFactory，跟进去发现最终创建的为DefaultListableBeanFactory，跟上面使用的一致</span></span><br><span class="line">        ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory<span class="params">()</span>;</span><br><span class="line">        prepareBeanFactory<span class="params">(beanFactory)</span>;</span><br><span class="line">        try &#123;</span><br><span class="line">        	<span class="comment">//下面就是webApplicationContext初始化的一些操作</span></span><br><span class="line">            postProcessBeanFactory<span class="params">(beanFactory)</span>;</span><br><span class="line">            invokeBeanFactoryPostProcessors<span class="params">(beanFactory)</span>;</span><br><span class="line">            registerBeanPostProcessors<span class="params">(beanFactory)</span>;</span><br><span class="line">            initMessageSource<span class="params">()</span>;</span><br><span class="line">            initApplicationEventMulticaster<span class="params">()</span>;</span><br><span class="line">            onRefresh<span class="params">()</span>;</span><br><span class="line">            registerListeners<span class="params">()</span>;</span><br><span class="line">            finishBeanFactoryInitialization<span class="params">(beanFactory)</span>;</span><br><span class="line">            finishRefresh<span class="params">()</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        catch <span class="params">(BeansException ex)</span> &#123;</span><br><span class="line">			、、、</span><br><span class="line">        &#125;</span><br><span class="line">        finally &#123;</span><br><span class="line">            resetCommonCaches<span class="params">()</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>创建beanFactory后会执行XmlWebApplicationContext的loadBeanDefinitions()方法，该方法会加载root.xml和application.xml。都会委托BeanDefinitionParser去执行，包括<context:component-scan>、<mvc:annotation-driven>、<task:annotation-driven>、<interceptors>等等。</interceptors></task:annotation-driven></mvc:annotation-driven></context:component-scan></p>
-<h2 id="结语">结语</h2><p>到这里关于bean加载的四种注解解析告一段落了，但是装载这些bean后，如何使用呢？@Autowired是如何注入的？@RequestMapping是如何映射请求的？@ModelAttribute等是如何工作的？<br>@Async异步请求如何处理的？等等。  后续会继续更新~</p>
+<h2 id="结语">结语</h2><p>到这里关于bean加载的四种注解解析告一段落了，但是装载这些bean后，如何使用呢？@Autowired是如何注入的？@RequestMapping是如何映射请求的？@ModelAttribute等是如何工作的?@Async异步请求如何处理的？等等。  后续会继续更新~</p>
 <ol>
 <li>获取配置bean：<strong>Component</strong>,<strong>Controller</strong>,<strong>Repository</strong>,<strong>Service</strong></li>
 <li>获取request信息相关注解： <strong>PathVariable</strong>,<strong>RequestParam</strong>,<strong>RequestBody</strong>,<strong>RequestHeader</strong>,<strong>CookieValue</strong>,<strong>ModelAttribute</strong>,<strong>SessionAttributes</strong></li>
@@ -221,6 +221,8 @@
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/25/动态代理/">动态代理</a>
             
           </div>
 
@@ -290,7 +292,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

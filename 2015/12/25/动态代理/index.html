@@ -1,0 +1,547 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv=”Cache-Control” content=”no-transform” />
+<meta http-equiv=”Cache-Control” content=”no-siteapp” />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+    <meta name="description" content="热爱生活~" />
+
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/title.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'post'
+  };
+</script>
+
+
+
+
+  <title> 动态代理 - 程小黑 </title>
+</head>
+
+<body>
+<!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">程小黑</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于我
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-commonweal">
+        <a href="/404.html">
+          <i class="menu-item-icon icon-commonweal"></i> <br />
+          公益404
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              动态代理
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-12-25
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/12/25/动态代理/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/25/动态代理/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h2 id="简介">简介</h2><p>Spring AOP实现原理是java语言的动态代理，学习后写篇日记记录下来！</p>
+<a id="more"></a>
+<h2 id="原理">原理</h2><p>java动态代理的原理为：使用java反射生成与委托类相同接口的代理类，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务。<br><img src="http://pic.yupoo.com/ch1991eng/FdnQHUS8/medish.jpg" alt=""></p>
+<h3 id="Java反射">Java反射</h3><p>java反射主要涉及的是java.lang.Class、java.lang.reflect.Constructor、java.lang.reflect.Field、java.lang.reflect.Method等类。下面的demo来演示反射的一些基本使用方法：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.proxy;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by 程祥 on 15/12/30.</span><br><span class="line"> * Function：学习反射用的model</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> class ReflectModel &#123;</span><br><span class="line">	<span class="comment">//省略get、set方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> string;</span><br><span class="line">    <span class="comment">//此处为public</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> num;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span>[] arr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> voidMethod(<span class="keyword">String</span> arg)&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">"voidMethod********"</span>+arg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> argMethod(<span class="keyword">String</span> arg)&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(arg);</span><br><span class="line">        <span class="keyword">return</span> arg+<span class="string">"******argMethod"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package com.demo.proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by 程祥 on 15/12/30.</span><br><span class="line"> * Function：反射学习测试</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> ReflectTest &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> static <span class="built_in">void</span> main(<span class="built_in">String</span>[] args)&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class reflectClass = Class.forName(<span class="string">"com.demo.proxy.ReflectModel"</span>);</span><br><span class="line">            <span class="comment">//此处相当于 new ReflectModel();</span></span><br><span class="line">            ReflectModel reflectObj = (ReflectModel)reflectClass.newInstance();</span><br><span class="line">            <span class="comment">//可以正常输出</span></span><br><span class="line">            reflectObj.voidMethod(<span class="string">"reflectObj"</span>);</span><br><span class="line"></span><br><span class="line">            Constructor <span class="constructor"><span class="keyword">constructor</span> = reflectClass.getConstructor();</span><br><span class="line">            ReflectModel constructorObj = (ReflectModel)<span class="keyword">constructor</span>.newInstance();</span><br><span class="line">            //可以正常输出</span><br><span class="line">            reflectObj.voidMethod("constructorObj");</span><br><span class="line"></span><br><span class="line">            Method voidMethod = reflectClass.getMethod("voidMethod",<span class="built_in">String</span>.<span class="keyword">class</span>);</span><br><span class="line">            voidMethod.invoke(constructorObj, "methodInvoke");</span><br><span class="line">            Method arrMthod = reflectClass.getMethod("setArr",<span class="built_in">String</span>[].<span class="keyword">class</span>);</span><br><span class="line">            <span class="built_in">String</span>[] arrStr = </span>&#123;<span class="string">"aaa"</span>,<span class="string">"bb"</span>&#125;;</span><br><span class="line">            <span class="comment">//arrStr前面需要加Object转型，</span></span><br><span class="line">            <span class="comment">//不然会报错java.lang.IllegalArgumentException:Wrong number of arguments</span></span><br><span class="line">            arrMthod.invoke(<span class="constructor">constructorObj, (<span class="built_in">Object</span>) arrStr);</span><br><span class="line">            System.out.println(Arrays.toString(constructorObj.getArr()));</span><br><span class="line"></span><br><span class="line">            Method setNum = reflectClass.getMethod("setNum",int.<span class="keyword">class</span>);</span><br><span class="line">            setNum.invoke(constructorObj,100);</span><br><span class="line">            //都需要考虑访问性 <span class="keyword">private</span>/protect/<span class="keyword">public</span></span><br><span class="line">            Field numField = reflectClass.getField("num");</span><br><span class="line">            System.out.println(numField.getInt(constructorObj));</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) </span>&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Java动态代理">Java动态代理</h2><p>动态代理使用java反射生成与委托类相同接口的代理类，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。原理如上图，demo如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TestService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">printText</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.proxy.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.demo.proxy.TestService;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestServiceImpl</span> <span class="keyword">implements</span> <span class="title">TestService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printText</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"*****TestServiceImpl******"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">package com.demo.proxy.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.<span class="type">InvocationHandler</span>;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.<span class="type">Method</span>;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.<span class="type">Proxy</span>;</span><br><span class="line"></span><br><span class="line">public class <span class="type">ProxySubject</span> implements <span class="type">InvocationHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    //被代理对象</span><br><span class="line">    private <span class="type">Object</span> <span class="keyword">object</span>;</span><br><span class="line"></span><br><span class="line">    public <span class="type">ProxySubject</span>(<span class="type">Object</span> <span class="keyword">object</span>) &#123;</span><br><span class="line">        this.<span class="keyword">object</span> = <span class="keyword">object</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="type">Object</span> getProxyBean()&#123;</span><br><span class="line">    	//返回代理对象</span><br><span class="line">        <span class="keyword">return</span> <span class="type">Proxy</span>.newProxyInstance(<span class="keyword">object</span>.getClass().getClassLoader(),</span><br><span class="line">                <span class="keyword">object</span>.getClass().getInterfaces(), this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="type">Object</span> invoke(<span class="type">Object</span> proxy, <span class="type">Method</span> <span class="keyword">method</span>, <span class="type">Object</span>[] args) throws <span class="type">Throwable</span> &#123;</span><br><span class="line">        //代理增强</span><br><span class="line">        <span class="type">System</span>.<span class="keyword">out</span>.println(<span class="string">"InvokeImpl proxy add function~"</span>);</span><br><span class="line">        //使用反射</span><br><span class="line">        <span class="type">Object</span> <span class="literal">result</span> = <span class="keyword">method</span>.invoke(<span class="keyword">object</span>, args);</span><br><span class="line">        <span class="type">System</span>.<span class="keyword">out</span>.println(proxy.getClass().getName());</span><br><span class="line">        //。。。some other function</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package com.demo.proxy;</span><br><span class="line"></span><br><span class="line">import com.demo.proxy.impl.ProxySubject;</span><br><span class="line">import com.demo.proxy.impl.TestServiceImpl;</span><br><span class="line">import java.lang.reflect.Proxy;</span><br><span class="line"><span class="keyword"></span><br><span class="line">public</span> class Client &#123;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> void<span class="function"> main(</span>String<span class="keyword">[</span>] args<span class="function">)</span>&#123;</span><br><span class="line">        TestService service =<span class="instruction"> new </span>TestServiceImpl(<span class="function">)</span>;</span><br><span class="line">        ProxySubject<span class="instruction"> invoke </span>=<span class="instruction"> new </span>ProxySubject(service<span class="function">)</span>;</span><br><span class="line">        TestService proxy =<span class="function"> (</span>TestService<span class="function">)</span>invoke.getProxyBean(<span class="function">)</span>;</span><br><span class="line">        //实现功能与正常实现类一样，并添加了相应增强功能</span><br><span class="line">       <span class="function"> proxy.printText(</span><span class="function">)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="结语">结语</h2><p>java反射功能非常强大，用处特别多。动态代理和CGLIB的区别是动态代理使用于接口模式下，CGLIB使用于类与类之间的继承，CGLIB新生成了一个继承自原类的子类，CGLIB不适用与被final修饰的类进行代理。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/"> #java </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/23/web项目中常用的注解/">Spring web项目中常用的annotation (一)</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/12/25/动态代理/"
+               data-title="动态代理" data-url="https://ddimples.github.io/2015/12/25/动态代理/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="xiaoerhei" />
+          <p class="site-author-name">xiaoerhei</p>
+        </div>
+        <p class="site-description motion-element">热爱生活~</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java反射"><span class="nav-number">2.1.</span> <span class="nav-text">Java反射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java动态代理"><span class="nav-number">3.</span> <span class="nav-text">Java动态代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">4.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">xiaoerhei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js" id="motion.global"></script>
+
+
+
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ddimples"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>
